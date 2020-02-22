@@ -1,0 +1,8 @@
+.TimeBarContainer {
+    margin-top: 5px;
+    width: 200px;
+    height: 30px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+}

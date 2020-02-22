@@ -1,0 +1,41 @@
+@import url(https://fonts.googleapis.com/css?family=Mr+Dafoe);
+
+
+
+button {
+    font-family: 'Titillium Web', sans-serif;
+    font-style: italic;
+    color: rgb(245, 218, 239);
+    letter-spacing: 3px;
+    height: 70px;
+    font-size: 40px;
+    margin-top: 200px;
+    background-color: rgb(249, 117, 247);
+    outline: none;
+    border: 1px solid rgb(240, 8, 183);
+    box-shadow: 0px 7px 2px 0px rgba(116, 7, 88, 0.548);
+
+}
+
+
+
+button:hover {
+    margin-top: 202px;
+    box-shadow: 0px 5px 2px 0px rgba(116, 7, 88, 0.548);
+}
+
+button:active {
+    margin-top: 207px;
+    box-shadow: 0px 0px 2px 0px rgba(116, 7, 88, 0.548);
+}
+
+h2 {
+    font-family: 'Titillium Web', sans-serif;
+    font-style: italic;
+    color: rgb(249, 117, 247);  
+    margin-top: 8%;
+    letter-spacing: 7px;
+    font-size: 2rem;
+}
+
+.container {}

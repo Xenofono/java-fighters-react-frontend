@@ -1,0 +1,40 @@
+.nextMatch {
+    display: flex;
+    justify-content: space-around;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 10%;
+    background-color: rgb(236, 167, 55);
+
+    min-height: 200px;
+
+    -webkit-box-shadow: 10px 10px 10px 10px rgba(240, 8, 183, 0.75);
+    -moz-box-shadow: 10px 10px 10px 10px rgba(240, 8, 183, 0.75);
+    box-shadow: 0px 0px 10px 10px rgba(116, 7, 88, 0.548);
+}
+
+.nextMatch div{
+}
+
+
+.matchBtn{
+    position: relative;
+    height: 30px;
+    font-size: 18px;
+    margin-top:5px;
+    background-color: rgb(249, 117, 247);
+    outline: none;
+    border: 1px solid rgb(240, 8, 183);
+    box-shadow: 0px 7px 2px 0px rgba(116, 7, 88, 0.548);
+
+}
+
+.matchBtn:hover{
+    margin-top: 12px;
+    box-shadow: 0px 5px 2px 0px rgba(116, 7, 88, 0.548);
+}
+
+.matchBtn:active{
+    margin-top: 18px;
+    box-shadow: 0px 0px 2px 0px rgba(116, 7, 88, 0.548);
+}
