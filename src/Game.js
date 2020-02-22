@@ -59,8 +59,8 @@ const Game = props => {
 
   return (
     <div>
-      <h1 class="chrome">JAVA</h1>
-      <h3 class="dreams">Fighters</h3>
+      <h1 className="chrome">JAVA</h1>
+      <h3 className="dreams">Fighters</h3>
       {toShow}
       {/* <Balloons></Balloons> */}
 
