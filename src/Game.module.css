@@ -2,7 +2,7 @@
 
 
 
-button {
+/* button {
     font-family: 'Titillium Web', sans-serif;
     font-style: italic;
     color: rgb(245, 218, 239);
@@ -28,7 +28,7 @@ button:hover {
 button:active {
     margin-top: 207px;
     box-shadow: 0px 0px 2px 0px rgba(116, 7, 88, 0.548);
-}
+} */
 
 h2 {
     font-family: 'Titillium Web', sans-serif;

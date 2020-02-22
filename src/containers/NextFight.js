@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Fighter from "../Fighter";
 import TimeBar from "../UI/TimeBar";
+import Button from "../UI/Button";
 import classes from "./NextFight.module.css";
 
 const NextFight = props => {
@@ -13,8 +14,10 @@ const NextFight = props => {
     if (timeLeft > 0) {
       const interval = setInterval(() => {
         setTimeLeft(oldTime => oldTime - 1);
-      }, 300);
+      }, 100);
       return () => clearInterval(interval);
+    } else {
+      props.click();
     }
   }, [fighter1, fighter2, timeLeft]);
 
@@ -29,9 +32,10 @@ const NextFight = props => {
       <div>
         <TimeBar time={timeLeft}></TimeBar>
         <h3>VS</h3>
-        
-          <button className={classes.matchBtn}>Starta matchen</button>
-        
+
+        <Button size={15} click={props.click}>
+          Starta matchen
+        </Button>
       </div>
 
       <Fighter

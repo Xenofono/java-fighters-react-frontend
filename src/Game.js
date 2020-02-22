@@ -1,70 +1,66 @@
 import React, { useEffect, useState } from "react";
 import classes from "./Game.module.css";
-import Fighter from "./Fighter";
-import Balloons from "./UI/Balloons.js";
+import Fight from "./containers/Fight";
 import NextFight from "./containers/NextFight";
 
 const API_URL = "https://peaceful-dawn-33157.herokuapp.com/api/";
 
 const Game = props => {
-  const [tournamentId, setTournamentId] = useState("");
   const [fighters, setFighters] = useState([]);
   const [nextMatch, setNextMatch] = useState({});
+  const [nextMatchLoaded, setNextMatchLoaded] = useState(false);
+  const [fight, setFight] = useState({});
+  const [showFight, setShowFight] = useState(false);
 
   useEffect(() => {
-    if (tournamentId !== "") {
-      fetch(API_URL + tournamentId)
-        .then(response => response.json())
-        .then(result => setFighters(result["fightersRemaining"]));
+    fetch(API_URL + props.tournamentId)
+      .then(response => response.json())
+      .then(result => setFighters(result["fightersRemaining"]));
 
-      fetch(API_URL + tournamentId + "/upcoming")
+      if(!showFight){
+        fetch(API_URL + props.tournamentId + "/upcoming")
         .then(response => response.json())
         .then(result => {
           setNextMatch(result);
+          setNextMatchLoaded(true);
         });
-    }
-  }, [tournamentId]);
+      }
 
-  const handleNewTournament = () => {
-    fetch(API_URL + "new")
-      .then(response => response.json())
-      .then(result => setTournamentId(result["id"]));
+  });
+
+  const loadUpcomingMatch = () => {};
+
+  const handleShowFight = () => {
+    setShowFight(!showFight);
   };
 
-  const toShow =
-    typeof nextMatch["fighter1"] === "undefined" ? (
-      <div>
-        <button onClick={handleNewTournament}>Starta ny turnering</button>
-      </div>
-    ) : (
-      <div className={classes.container}>
-        <h2>Turneringen har börjat!</h2>
-        <NextFight fighters={nextMatch}></NextFight>
-      </div>
-    );
+  const handleStartFight = () => {
+    fetch(API_URL + props.tournamentId + "/fight")
+      .then(response => response.json())
+      .then(result => {
+        setFight(result);
+        handleShowFight()
+      });
+  };
 
-  const fightersToShow =
-    fighters.length !== 0
-      ? fighters.map(f => {
-          return (
-            <Fighter
-              name={f.name}
-              health={f.health}
-              wins={f.wins}
-              losses={f.losses}
-            ></Fighter>
-          );
-        })
-      : null;
+  const test = !nextMatchLoaded && !showFight ?
+  null : 
+  nextMatchLoaded && !showFight ? (
+    <NextFight fighters={nextMatch} click={handleStartFight}></NextFight>
+) : (
+    <Fight fight={fight} showFightHandler={handleShowFight}></Fight>
+);
+
+  // const toShow = nextMatchLoaded ? (
+  //     <NextFight fighters={nextMatch} click={handleStartFight}></NextFight>
+  // ) : (
+  //     <Fight fighters={fight} showfightHandler={handleShowFight}></Fight>
+  // );
 
   return (
     <div>
-      <h1 className="chrome">JAVA</h1>
-      <h3 className="dreams">Fighters</h3>
-      {toShow}
-      {/* <Balloons></Balloons> */}
-
-      {/* {fightersToShow} */}
+      {fighters.length}
+      <div className={classes.container}>{test}</div>
     </div>
   );
 };

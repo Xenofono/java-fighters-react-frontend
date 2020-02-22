@@ -1,15 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
 import classes from "./Fighter.module.css";
+import TimeBar from "./UI/TimeBar";
 
 const Fighter = props => {
   return (
     <div className={classes.fighter}>
-      <h4>Fighter: {props.name}</h4>
-      <p>Hälsopoäng(svenska..): {props.health}</p>
-      <p>
-        Vinster: {props.wins} förluster: {props.losses}
-      </p>
+      {typeof props.currentHealth !== "undefined" ? (
+        <TimeBar time={props.currentHealth} color={"red"}></TimeBar>
+      ) : null}
+      <h4>
+        Fighter: <strong>{props.name}</strong>
+      </h4>
+      <strong>
+        <p>Hälsa: {props.health}</p>
+        <p>Vinster: {props.wins}</p>
+        <p>förluster: {props.losses}</p>
+      </strong>
     </div>
   );
 };

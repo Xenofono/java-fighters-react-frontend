@@ -3,20 +3,21 @@ import PropTypes from "prop-types";
 import classes from "./TimeBar.module.css";
 
 const TimeBar = props => {
+  console.log(props.time);
 
-    console.log(props.time)
-
-
-
-  const style = {
+  const innerStyle = {
     width: props.time + "%",
     height: "100%",
-    backgroundColor: "#F975F7"
+    backgroundColor: props.color ? props.color : "#F975F7"
   };
 
+  const outerStyle= {
+    justifyContent: props.color ? "flex-start" : "center"
+  }
+
   return (
-    <div className={classes.TimeBarContainer}>
-      <div style={style}></div>
+    <div className={classes.TimeBarContainer} style={outerStyle}>
+      <div style={innerStyle}></div>
     </div>
   );
 };

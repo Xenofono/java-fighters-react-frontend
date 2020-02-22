@@ -1,3 +1,25 @@
-.btn{
-    
+
+.btn {
+    font-family: 'Titillium Web', sans-serif;
+    font-style: italic;
+    color: rgb(245, 218, 239);
+    letter-spacing: 3px;
+    background-color: rgb(249, 117, 247);
+    outline: none;
+    border: 1px solid rgb(240, 8, 183);
+    cursor: pointer;
+    box-shadow: 0px 7px 2px 0px rgba(116, 7, 88, 0.548);
+
+}
+
+
+
+.btn:hover {
+    margin-top: 5px;
+    box-shadow: 0px 5px 2px 0px rgba(116, 7, 88, 0.548);
+}
+
+.btn:active {
+    margin-top: 10px;
+    box-shadow: 0px 0px 2px 0px rgba(116, 7, 88, 0.548);
 }
