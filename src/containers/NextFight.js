@@ -14,14 +14,14 @@ const NextFight = props => {
     if (timeLeft > 0) {
       const interval = setInterval(() => {
         setTimeLeft(oldTime => oldTime - 1);
-      }, 100);
+      }, 50);
       return () => clearInterval(interval);
     } else {
       props.click();
     }
   }, [fighter1, fighter2, timeLeft]);
 
-  const nextMatchToShow = (
+  const nextMatchToShow = fighter1 ? (
     <div className={classes.nextMatch}>
       <Fighter
         name={fighter1.name}
@@ -45,7 +45,7 @@ const NextFight = props => {
         losses={fighter2.losses}
       ></Fighter>
     </div>
-  );
+  ) : null;
 
   return <div>{nextMatchToShow}</div>;
 };
