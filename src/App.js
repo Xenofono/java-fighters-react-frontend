@@ -3,7 +3,7 @@ import Button from './UI/Button'
 import Game from './Game'
 import './App.css';
 
-const API_URL = "https://peaceful-dawn-33157.herokuapp.com/api/";
+const API_URL = "http://localhost:8080/api/";
 
 function App() {
 

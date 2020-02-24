@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Fighter from "../Fighter";
-import Balloons from '../UI/Balloons'
+import Balloons from "../UI/Balloons";
 import classes from "./Fight.module.css";
 
 const Fight = props => {
@@ -16,49 +16,44 @@ const Fight = props => {
   const [showWinnerTimeLeft, setShowWinnerTimeLeft] = useState(100);
 
   useEffect(() => {
-      if(fightLog){
-        if (currentLogIndex < fightLog.length) {
-            const interval = setInterval(() => {
-              const log = fightLog[currentLogIndex];
-              console.log(log)
-              const splitLog = log.split(" ");
-              const attackedFighter =
-                splitLog[0] === fighter1.name ? fighter1 : fighter2;
-              const dmg = splitLog[splitLog.length - 1];
-              if (attackedFighter === fighter1) {
-                setFighter1Health(oldHealth =>
-                  calcHpWidth(attackedFighter, oldHealth, dmg)
-                );
-              } else {
-                setFighter2Health(oldHealth =>
-                  calcHpWidth(attackedFighter, oldHealth, dmg)
-                );
-              }
-      
-              setCurrentLogIndex(oldLogIndex => {
-                setCurrentLog(fightLog[currentLogIndex]);
-                return oldLogIndex + 1;
-              });
-            }, 100);
-            return () => clearInterval(interval);
-          } else {
-            if (fightOver === false){
-              setFightOver(true);
-              const loser = fighter1Health > fighter2Health ? fighter2 : fighter1;
-              props.sendLoser(loser)    
-          } 
-            if (showWinnerTimeLeft > 0) {
-              const interval = setInterval(() => {
-                setShowWinnerTimeLeft(oldTime => oldTime - 1);
-              }, 50);
-              return () => clearInterval(interval);
-            }
-          }
-          props.handleShowFight();
-      }
+    if (currentLogIndex < fightLog.length) {
+      const interval = setInterval(() => {
+        const log = fightLog[currentLogIndex];
+        console.log(log);
+        const splitLog = log.split(" ");
+        const attackedFighter =
+          splitLog[0] === fighter1.name ? fighter1 : fighter2;
+        const dmg = splitLog[splitLog.length - 1];
+        if (attackedFighter === fighter1) {
+          setFighter1Health(oldHealth =>
+            calcHpWidth(attackedFighter, oldHealth, dmg)
+          );
+        } else {
+          setFighter2Health(oldHealth =>
+            calcHpWidth(attackedFighter, oldHealth, dmg)
+          );
+        }
 
+        setCurrentLogIndex(oldLogIndex => {
+          setCurrentLog(fightLog[currentLogIndex]);
+          return oldLogIndex + 1;
+        });
+      }, 10);
+      return () => clearInterval(interval);
+    } else {
+      if (fightOver === false) {
+        setFightOver(true);
+      }
+      if (showWinnerTimeLeft > 0) {
+        const interval = setInterval(() => {
+          setShowWinnerTimeLeft(oldTime => oldTime - 1);
+        }, 50);
+        return () => clearInterval(interval);
+      }
+    }
+    const loser = fighter1Health > fighter2Health ? fighter2 : fighter1;
+    props.moveToNext(loser);
   }, [
-    
     currentLogIndex,
     fighter1Health,
     fighter2Health,
@@ -94,12 +89,14 @@ const Fight = props => {
         losses={fighter2.losses}
       ></Fighter>
     </div>
-  ) : <Balloons></Balloons>;
+  ) : (
+    <Balloons></Balloons>
+  );
 
   const winner = props.fight.winner ? (
     <div className={classes.nextMatch}>
       <div>
-        <h3>Winner!</h3>
+        <h3>Vinnaren!</h3>
         <Fighter
           name={props.fight.winner.name}
           health={props.fight.winner.health}

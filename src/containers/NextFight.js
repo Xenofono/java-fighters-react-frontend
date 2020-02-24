@@ -6,9 +6,9 @@ import Button from "../UI/Button";
 import classes from "./NextFight.module.css";
 
 const NextFight = props => {
-  const { fighter1 } = props.fighters;
-  const { fighter2 } = props.fighters;
+  const { fighter1, fighter2 } = props.nextMatch;
   const [timeLeft, setTimeLeft] = useState(100);
+
 
   useEffect(() => {
     if (timeLeft > 0) {

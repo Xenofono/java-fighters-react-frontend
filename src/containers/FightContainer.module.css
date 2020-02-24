@@ -1,7 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Mr+Dafoe);
-
-
-.nextMatch {
+.FightContainer {
     display: flex;
     justify-content: space-around;
     margin-left: 10%;
@@ -14,14 +11,4 @@
     -webkit-box-shadow: 10px 10px 10px 10px rgba(240, 8, 183, 0.75);
     -moz-box-shadow: 10px 10px 10px 10px rgba(240, 8, 183, 0.75);
     box-shadow: 0px 0px 10px 10px rgba(116, 7, 88, 0.548);
-}
-
-
-h2 {
-    font-family: 'Titillium Web', sans-serif;
-    font-style: italic;
-    color: rgb(249, 117, 247);  
-    margin-top: 8%;
-    letter-spacing: 7px;
-    font-size: 2rem;
 }

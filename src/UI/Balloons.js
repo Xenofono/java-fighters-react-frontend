@@ -8,11 +8,12 @@ const Balloons = props => {
 
   let balloons = [];
   for (let i = 0; i < 10; i++) {
-    const height = Math.floor(Math.random() * window.innerHeight);
-    const width = Math.floor(Math.random() * window.innerWidth);
+    const height = Math.floor(Math.random() * window.innerHeight) - 50;
+    const width = Math.floor(Math.random() * window.innerWidth) - 50;
     balloons.push(
       <div
         className={classes.ballong}
+        key={i}
         style={{
           backgroundColor: randomColor(),
           top: height + "px",
