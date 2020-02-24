@@ -38,7 +38,7 @@ const Fight = props => {
           setCurrentLog(fightLog[currentLogIndex]);
           return oldLogIndex + 1;
         });
-      }, 10);
+      }, 100);
       return () => clearInterval(interval);
     } else {
       if (fightOver === false) {
@@ -77,7 +77,7 @@ const Fight = props => {
       ></Fighter>
       <div>
         <p>
-          <strong>{currentLog}</strong>
+          {/* <strong>{currentLog}</strong> */}
         </p>
       </div>
 
@@ -96,7 +96,7 @@ const Fight = props => {
   const winner = props.fight.winner ? (
     <div className={classes.nextMatch}>
       <div>
-        <h3>Vinnaren!</h3>
+        <h3 className={classes.winner}>Vinnaren!</h3>
         <Fighter
           name={props.fight.winner.name}
           health={props.fight.winner.health}

@@ -10,6 +10,8 @@ const Balloons = props => {
   for (let i = 0; i < 10; i++) {
     const height = Math.floor(Math.random() * window.innerHeight) - 50;
     const width = Math.floor(Math.random() * window.innerWidth) - 50;
+    const balloonWidth = Math.floor(Math.random() * 50)
+    const balloonHeight = Math.floor(Math.random() * 50)
     balloons.push(
       <div
         className={classes.ballong}
@@ -17,7 +19,9 @@ const Balloons = props => {
         style={{
           backgroundColor: randomColor(),
           top: height + "px",
-          left: width + "px"
+          left: width + "px",
+          width: balloonWidth,
+          height: balloonWidth - 5
         }}
       ></div>
     );

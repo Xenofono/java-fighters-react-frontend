@@ -29,7 +29,7 @@ const NextFight = props => {
         wins={fighter1.wins}
         losses={fighter1.losses}
       ></Fighter>
-      <div>
+      <div className={classes.info}>
         <TimeBar time={timeLeft}></TimeBar>
         <h3>VS</h3>
 

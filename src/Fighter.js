@@ -7,7 +7,7 @@ const Fighter = props => {
   return (
     <div className={classes.fighter}>
       {typeof props.currentHealth !== "undefined" ? (
-        <TimeBar time={props.currentHealth} color={"red"}></TimeBar>
+        <TimeBar time={props.currentHealth} color={"#FF2525"}></TimeBar>
       ) : null}
       <h4>
         Fighter: <strong>{props.name}</strong>

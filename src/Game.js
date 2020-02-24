@@ -85,7 +85,7 @@ const Game = props => {
 
   return (
     <div>
-      {fighters.length > 1 ? currentBracket : null}
+      {fighters.length > 1 ? <h3 className={classes.bracket}>{currentBracket}</h3> : null}
       {fighters.length}
       {tournamentOver ? <Balloons></Balloons> : null}
       {tournamentOver ? tournamentWinner : test}

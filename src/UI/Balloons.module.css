@@ -1,8 +1,6 @@
 .ballong {
     display:inline-block;
     position:absolute;
-    width: 30px;
-    height: 35px;
     background-color: green;
     border-radius: 20px;
     margin-bottom: 10px;
