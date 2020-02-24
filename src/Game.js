@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import classes from "./Game.module.css";
 import FightContainer from "./containers/FightContainer";
 import Fighter from "./Fighter";
-import Balloons from './UI/Balloons'
+import Balloons from "./UI/Balloons";
 
-const API_URL = "http://localhost:8080/api/";
+const API_URL = "https://peaceful-dawn-33157.herokuapp.com/api/";
 
 const Game = props => {
   const [fighters, setFighters] = useState([]);

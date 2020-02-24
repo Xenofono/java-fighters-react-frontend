@@ -1,21 +1,18 @@
-import React, {useState, useEffect} from 'react';
-import Button from './UI/Button'
-import Game from './Game'
-import './App.css';
+import React, { useState, useEffect } from "react";
+import Button from "./UI/Button";
+import Game from "./Game";
+import "./App.css";
 
-const API_URL = "http://localhost:8080/api/";
+const API_URL = "https://peaceful-dawn-33157.herokuapp.com/api/";
 
 function App() {
-
-  const [tournamentId, setTournamentId] = useState("")
-
+  const [tournamentId, setTournamentId] = useState("");
 
   const handleNewTournament = () => {
     fetch(API_URL + "new")
       .then(response => response.json())
       .then(result => setTournamentId(result["id"]));
   };
-
 
   return (
     <div className="App">
@@ -25,7 +22,9 @@ function App() {
         <Button size={40} click={handleNewTournament}>
           Starta ny turnering
         </Button>
-      ) : <Game tournamentId={tournamentId}></Game>}
+      ) : (
+        <Game tournamentId={tournamentId}></Game>
+      )}
     </div>
   );
 }
