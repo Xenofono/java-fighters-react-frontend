@@ -13,7 +13,11 @@ const Game = (props) => {
   const [tournamentOver, setTournamentOver] = useState(false);
   const [playSound, setPlaySound] = useState(new Howl({
     src:['/Ken Stage.mp3'],
-    volume:0.5
+    volume:0.5,
+    html5:true,
+    onend: () => {
+      console.log("SLUT")
+    }
   }));
 
   useEffect(() => {
