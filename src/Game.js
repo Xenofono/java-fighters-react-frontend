@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import classes from "./Game.module.css";
 import FightContainer from "./containers/FightContainer";
 import Fighter from "./Fighter";
-import {Howl, Howler} from 'howler'
+import { Howl, Howler } from "howler";
 
 const Game = (props) => {
   const [fighters, setFighters] = useState([]);
@@ -11,20 +11,14 @@ const Game = (props) => {
   const [fight, setFight] = useState({});
   const [loaded, setLoaded] = useState(false);
   const [tournamentOver, setTournamentOver] = useState(false);
-  const [playSound, setPlaySound] = useState(new Howl({
-    src:['/Ken Stage.mp3'],
-    volume:0.5,
-    html5:true,
-    onend: () => {
-      console.log("SLUT")
-    }
-  }));
-
-  const [winSound] = useState(new Howl({
-    src:['/win.mp3'],
-    volume:0.5,
-    html5:true
-  }));
+  const [playSound, setPlaySound] = useState(
+    new Howl({
+      src: ["/Ken Stage.mp3"],
+      volume: 0.5,
+      rate: 1,
+      html5: true
+    })
+  );
 
   useEffect(() => {
     if (fighters.length === 0) {
@@ -34,7 +28,7 @@ const Game = (props) => {
           setFighters(result["fightersRemaining"]);
           setAllFighters(result["allFighters"].length);
         });
-        playSound.play();
+      playSound.play();
     }
 
     if (!loaded && !tournamentOver) {
@@ -50,7 +44,7 @@ const Game = (props) => {
             .then(() => setLoaded(true));
         });
     }
-  }, [loaded, playSound, winSound]);
+  }, [loaded, playSound]);
 
   const handleShowFight = (loser) => {
     setFighters((oldFighters) => {
@@ -72,7 +66,18 @@ const Game = (props) => {
     currentBracket = "Final";
   } else if (numberOfFighters === 1) {
     currentBracket = "Vinnaren!";
-    winSound.play()
+    playSound.fade(0.5, 0, 1500);
+    new Howl({
+      src: ["/win.mp3"],
+      volume: 0.5,
+      html5: true
+    }).play();
+
+    new Howl({
+      src: ["/Guile Stage.mp3"],
+      volume: 0.5,
+      html5: true
+    }).play();
   }
 
   console.log("FIGHTERS KVAR!", fighters);
@@ -80,11 +85,15 @@ const Game = (props) => {
     <div className={classes.nextMatch}>
       <div>
         <h3>Mästaren av Java Fighters!</h3>
-        <Fighter
-          name={fighters[0].name}
-          health={fighters[0].health}
-          wins={fighters[0].wins}
-          losses={fighters[0].losses}></Fighter>
+        <div className={classes.winnerContainer}>
+          <img src={"/chunli.gif"}></img>
+          <Fighter
+            name={fighters[0].name}
+            health={fighters[0].health}
+            wins={fighters[0].wins}
+            losses={fighters[0].losses}></Fighter>
+          <img src={"/chunli.gif"}></img>
+        </div>
       </div>
     </div>
   ) : null;
