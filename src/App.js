@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Button from "./UI/Button";
 import Game from "./Game";
-import "./App.css";
+import classes from "./App.module.css";
 
 const API_URL = "https://peaceful-dawn-33157.herokuapp.com/api/";
 
@@ -15,15 +15,15 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h1 className="chrome">JAVA</h1>
-      <h3 className="dreams">Fighters</h3>
+    <div className={classes.App}>
+      <h1 className={classes.chrome}>JAVA</h1>
+      <h3 className={classes.dreams}>Fighters</h3>
       {tournamentId === "" ? (
-        <Button size={40} click={handleNewTournament}>
+        <Button size={40} click={handleNewTournament} top={300}>
           Starta ny turnering
         </Button>
       ) : (
-        <Game tournamentId={tournamentId}></Game>
+        <Game tournamentId={tournamentId} API_URL={API_URL}></Game>
       )}
     </div>
   );

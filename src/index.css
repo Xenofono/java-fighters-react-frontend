@@ -1,13 +1,12 @@
 @import url(https://fonts.googleapis.com/css?family=Titillium+Web:900);
 @import url(https://fonts.googleapis.com/css?family=Mr+Dafoe);
-
+@import url('https://fonts.googleapis.com/css?family=Cardo|Carrois+Gothic+SC&display=swap');
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Cardo', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 18px;
 
   
 height: 100%;

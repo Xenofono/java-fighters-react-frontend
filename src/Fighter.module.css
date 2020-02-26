@@ -10,7 +10,6 @@
     color: white;
 }
 .fighter:hover{
-    border-bottom: 10px solid white;
    animation: text-shadow 5s ease-in-out infinite;
 
 }

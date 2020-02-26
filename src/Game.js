@@ -2,61 +2,67 @@ import React, { useEffect, useState } from "react";
 import classes from "./Game.module.css";
 import FightContainer from "./containers/FightContainer";
 import Fighter from "./Fighter";
-import Balloons from "./UI/Balloons";
+import {Howl, Howler} from 'howler'
 
-const API_URL = "https://peaceful-dawn-33157.herokuapp.com/api/";
-
-const Game = props => {
+const Game = (props) => {
   const [fighters, setFighters] = useState([]);
   const [allFighters, setAllFighters] = useState();
   const [nextMatch, setNextMatch] = useState({});
   const [fight, setFight] = useState({});
   const [loaded, setLoaded] = useState(false);
   const [tournamentOver, setTournamentOver] = useState(false);
+  const [playSound, setPlaySound] = useState(new Howl({
+    src:['/Ken Stage.mp3'],
+    volume:0.5
+  }));
 
   useEffect(() => {
     if (fighters.length === 0) {
-      fetch(API_URL + props.tournamentId)
-        .then(response => response.json())
-        .then(result => {
+      fetch(props.API_URL + props.tournamentId)
+        .then((response) => response.json())
+        .then((result) => {
           setFighters(result["fightersRemaining"]);
           setAllFighters(result["allFighters"].length);
         });
+        playSound.play();
     }
 
     if (!loaded && !tournamentOver) {
-      fetch(API_URL + props.tournamentId + "/upcoming")
-        .then(nextMatchResponse => nextMatchResponse.json())
-        .then(nextMatchResult => {
-          fetch(API_URL + props.tournamentId + "/fight")
-            .then(response => response.json())
-            .then(result => {
+      fetch(props.API_URL + props.tournamentId + "/upcoming")
+        .then((nextMatchResponse) => nextMatchResponse.json())
+        .then((nextMatchResult) => {
+          fetch(props.API_URL + props.tournamentId + "/fight")
+            .then((response) => response.json())
+            .then((result) => {
               setNextMatch(nextMatchResult);
               setFight(result);
             })
             .then(() => setLoaded(true));
         });
     }
-  }, [loaded]);
+  }, [loaded, playSound]);
 
-  const handleShowFight = loser => {
-    setFighters(oldFighters => {
+  const handleShowFight = (loser) => {
+    setFighters((oldFighters) => {
       if (oldFighters.length === 2) {
         setTournamentOver(true);
       } else {
         setLoaded(false);
       }
-      return fighters.filter(f => f.name !== loser.name);
+      return fighters.filter((f) => f.name !== loser.name);
     });
   };
 
   const numberOfFighters = fighters.length !== 0 ? fighters.length : -1;
   let currentBracket = "Kvartsfinal";
 
-  if (numberOfFighters < allFighters / 2 + 1) currentBracket = "Semifinal";
+  if (numberOfFighters > 2 && numberOfFighters < allFighters / 2 + 1)
+    currentBracket = "Semifinal";
   else if (numberOfFighters === 2) {
     currentBracket = "Final";
-  } else if (numberOfFighters === 1) currentBracket = "Vinnaren!";
+  } else if (numberOfFighters === 1) {
+    currentBracket = "Vinnaren!";
+  }
 
   console.log("FIGHTERS KVAR!", fighters);
   const tournamentWinner = loaded ? (
@@ -67,8 +73,7 @@ const Game = props => {
           name={fighters[0].name}
           health={fighters[0].health}
           wins={fighters[0].wins}
-          losses={fighters[0].losses}
-        ></Fighter>
+          losses={fighters[0].losses}></Fighter>
       </div>
     </div>
   ) : null;
@@ -78,16 +83,15 @@ const Game = props => {
       <FightContainer
         nextMatch={nextMatch}
         fight={fight}
-        handleShowFight={handleShowFight}
-      ></FightContainer>
+        handleShowFight={handleShowFight}></FightContainer>
     </div>
   ) : null;
 
   return (
     <div>
-      {fighters.length > 1 ? <h3 className={classes.bracket}>{currentBracket}</h3> : null}
-      {fighters.length}
-      {tournamentOver ? <Balloons></Balloons> : null}
+      {fighters.length !== 0 ? (
+        <h3 className={classes.bracket}>{currentBracket}</h3>
+      ) : null}
       {tournamentOver ? tournamentWinner : test}
     </div>
   );
