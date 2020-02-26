@@ -20,6 +20,12 @@ const Game = (props) => {
     }
   }));
 
+  const [winSound] = useState(new Howl({
+    src:['/win.mp3'],
+    volume:0.5,
+    html5:true
+  }));
+
   useEffect(() => {
     if (fighters.length === 0) {
       fetch(props.API_URL + props.tournamentId)
@@ -44,7 +50,7 @@ const Game = (props) => {
             .then(() => setLoaded(true));
         });
     }
-  }, [loaded, playSound]);
+  }, [loaded, playSound, winSound]);
 
   const handleShowFight = (loser) => {
     setFighters((oldFighters) => {
@@ -66,6 +72,7 @@ const Game = (props) => {
     currentBracket = "Final";
   } else if (numberOfFighters === 1) {
     currentBracket = "Vinnaren!";
+    winSound.play()
   }
 
   console.log("FIGHTERS KVAR!", fighters);

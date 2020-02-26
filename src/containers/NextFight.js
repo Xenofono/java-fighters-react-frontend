@@ -10,16 +10,9 @@ import {Howl, Howler} from 'howler'
 const NextFight = props => {
   const { fighter1, fighter2 } = props.nextMatch;
   const [timeLeft, setTimeLeft] = useState(100);
-  const [vsSound] = useState(new Howl({
-    src:['/Vs.mp3'],
-    volume:0.1
-  }))
 
 
   useEffect(() => {
-    if(timeLeft === 100){
-      vsSound.play();
-    }
     if (timeLeft > 0) {
       const interval = setInterval(() => {
         setTimeLeft(oldTime => oldTime - 1);
