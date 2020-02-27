@@ -51,7 +51,7 @@ const Fight = props => {
         return () => clearInterval(interval);
       }
     }
-    const loser = fighter1Health > fighter2Health ? fighter2 : fighter1;
+    const loser = props.fight.winner.name === fighter1.name ? fighter2 : fighter1
     props.moveToNext(loser);
   }, [
     currentLogIndex,

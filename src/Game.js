@@ -11,9 +11,25 @@ const Game = (props) => {
   const [fight, setFight] = useState({});
   const [loaded, setLoaded] = useState(false);
   const [tournamentOver, setTournamentOver] = useState(false);
-  const [playSound, setPlaySound] = useState(
+  const [playSound] = useState(
     new Howl({
-      src: ["/Ken Stage.mp3"],
+      src: ["sound/Ken Stage.mp3"],
+      volume: 0.5,
+      rate: 1,
+      html5: true
+    })
+  );
+  const [youWin] = useState(
+    new Howl({
+      src: ["sound/win.mp3"],
+      volume: 0.5,
+      rate: 1,
+      html5: true
+    })
+  );
+  const [winSong] = useState(
+    new Howl({
+      src: ["sound/Guile Stage.mp3"],
       volume: 0.5,
       rate: 1,
       html5: true
@@ -44,15 +60,20 @@ const Game = (props) => {
             .then(() => setLoaded(true));
         });
     }
-  }, [loaded, playSound]);
+  }, [loaded, playSound, youWin, winSong]);
 
   const handleShowFight = (loser) => {
     setFighters((oldFighters) => {
       if (oldFighters.length === 2) {
         setTournamentOver(true);
+        playSound.fade(0.5, 0, 1500);
+        youWin.play();
+    
+        winSong.play();
       } else {
         setLoaded(false);
       }
+      console.log(loser)
       return fighters.filter((f) => f.name !== loser.name);
     });
   };
@@ -66,33 +87,21 @@ const Game = (props) => {
     currentBracket = "Final";
   } else if (numberOfFighters === 1) {
     currentBracket = "Vinnaren!";
-    playSound.fade(0.5, 0, 1500);
-    new Howl({
-      src: ["/win.mp3"],
-      volume: 0.5,
-      html5: true
-    }).play();
 
-    new Howl({
-      src: ["/Guile Stage.mp3"],
-      volume: 0.5,
-      html5: true
-    }).play();
   }
-
   console.log("FIGHTERS KVAR!", fighters);
   const tournamentWinner = loaded ? (
     <div className={classes.nextMatch}>
       <div>
         <h3>Mästaren av Java Fighters!</h3>
         <div className={classes.winnerContainer}>
-          <img src={"/chunli.gif"}></img>
+          <img src={"images/chunli.gif"}></img>
           <Fighter
             name={fighters[0].name}
             health={fighters[0].health}
             wins={fighters[0].wins}
             losses={fighters[0].losses}></Fighter>
-          <img src={"/chunli.gif"}></img>
+          <img src={"images/chunli.gif"}></img>
         </div>
       </div>
     </div>
