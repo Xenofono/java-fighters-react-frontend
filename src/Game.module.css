@@ -1,12 +1,16 @@
 @import url(https://fonts.googleapis.com/css?family=Mr+Dafoe);
 
+.Game{
+}
+
+.container{
+}
 
 .nextMatch {
     display: flex;
     justify-content: space-around;
     margin-left: 10%;
     margin-right: 10%;
-    margin-top: 10%;
     background-color: rgb(236, 167, 55);
 
     min-height: 200px;
@@ -22,8 +26,8 @@
         font-family: 'Mr Dafoe';
         font-weight: 400;
         font-size: 60px;
-
         color: white ;
+        padding-bottom: 0px;
       
 }
 

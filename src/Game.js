@@ -117,7 +117,7 @@ const Game = (props) => {
   ) : null;
 
   return (
-    <div>
+    <div className={classes.Game}>
       {fighters.length !== 0 ? (
         <h3 className={classes.bracket}>{currentBracket}</h3>
       ) : null}

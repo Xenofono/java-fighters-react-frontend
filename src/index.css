@@ -9,9 +9,15 @@ body {
   font-size: 18px;
 
   
-height: 100%;
 
 
+}
+
+#root{
+  height: 100vh;
+  
+  background-color: #FFE53B;
+  background-image: linear-gradient(147deg, #FFE53B 0%, #FF2525 74%);
 }
 
 /* calc(10px + 2vmin) */

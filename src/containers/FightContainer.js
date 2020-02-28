@@ -17,7 +17,7 @@ const FightContainer = props => {
     <NextFight nextMatch={props.nextMatch} click={switchToFight}></NextFight>
   );
 
-  return <div>{toShow}</div>;
+  return <div className={classes.FightContainer}>{toShow}</div>;
 };
 
 FightContainer.propTypes = {};
