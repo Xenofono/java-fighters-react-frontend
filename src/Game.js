@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import classes from "./Game.module.css";
 import FightContainer from "./containers/FightContainer";
 import Fighter from "./Fighter";
-import { Howl, Howler } from "howler";
+import { Howl } from "howler";
 
-const Game = (props) => {
+const Game = props => {
   const [fighters, setFighters] = useState([]);
   const [allFighters, setAllFighters] = useState();
   const [nextMatch, setNextMatch] = useState({});
@@ -39,8 +39,8 @@ const Game = (props) => {
   useEffect(() => {
     if (fighters.length === 0) {
       fetch(props.API_URL + props.tournamentId)
-        .then((response) => response.json())
-        .then((result) => {
+        .then(response => response.json())
+        .then(result => {
           setFighters(result["fightersRemaining"]);
           setAllFighters(result["allFighters"].length);
         });
@@ -49,11 +49,11 @@ const Game = (props) => {
 
     if (!loaded && !tournamentOver) {
       fetch(props.API_URL + props.tournamentId + "/upcoming")
-        .then((nextMatchResponse) => nextMatchResponse.json())
-        .then((nextMatchResult) => {
+        .then(nextMatchResponse => nextMatchResponse.json())
+        .then(nextMatchResult => {
           fetch(props.API_URL + props.tournamentId + "/fight")
-            .then((response) => response.json())
-            .then((result) => {
+            .then(response => response.json())
+            .then(result => {
               setNextMatch(nextMatchResult);
               setFight(result);
             })
@@ -62,19 +62,19 @@ const Game = (props) => {
     }
   }, [loaded, playSound, youWin, winSong]);
 
-  const handleShowFight = (loser) => {
-    setFighters((oldFighters) => {
+  const handleShowFight = loser => {
+    setFighters(oldFighters => {
       if (oldFighters.length === 2) {
         setTournamentOver(true);
         playSound.fade(0.5, 0, 1500);
         youWin.play();
-    
+
         winSong.play();
       } else {
         setLoaded(false);
       }
-      console.log(loser)
-      return fighters.filter((f) => f.name !== loser.name);
+      console.log(loser);
+      return fighters.filter(f => f.name !== loser.name);
     });
   };
 
@@ -87,7 +87,6 @@ const Game = (props) => {
     currentBracket = "Final";
   } else if (numberOfFighters === 1) {
     currentBracket = "Vinnaren!";
-
   }
   console.log("FIGHTERS KVAR!", fighters);
   const tournamentWinner = loaded ? (
@@ -95,13 +94,9 @@ const Game = (props) => {
       <div>
         <h3>Mästaren av Java Fighters!</h3>
         <div className={classes.winnerContainer}>
-          <img src={"images/chunli.gif"}></img>
-          <Fighter
-            name={fighters[0].name}
-            health={fighters[0].health}
-            wins={fighters[0].wins}
-            losses={fighters[0].losses}></Fighter>
-          <img src={"images/chunli.gif"}></img>
+          <img src={"images/chunli.gif"} alt="chunli"></img>
+          <Fighter fighter={fighters[0]} fight></Fighter>
+          <img src={"images/chunli.gif"}alt="chunli"></img>
         </div>
       </div>
     </div>
@@ -112,7 +107,8 @@ const Game = (props) => {
       <FightContainer
         nextMatch={nextMatch}
         fight={fight}
-        handleShowFight={handleShowFight}></FightContainer>
+        handleShowFight={handleShowFight}
+      ></FightContainer>
     </div>
   ) : null;
 

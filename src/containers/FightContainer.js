@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import classes from "./FightContainer.module.css";
 import NextFight from "./NextFight";
 import Fight from "./Fight";
@@ -20,6 +19,5 @@ const FightContainer = props => {
   return <div className={classes.FightContainer}>{toShow}</div>;
 };
 
-FightContainer.propTypes = {};
 
 export default FightContainer;

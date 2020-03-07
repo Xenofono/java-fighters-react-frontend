@@ -1,25 +1,21 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import Fighter from "../Fighter";
 import Balloons from "../UI/Balloons";
 import classes from "./Fight.module.css";
 
 const Fight = props => {
-  const { fighter1 } = props.fight;
-  const { fighter2 } = props.fight;
+  const { fighter1, fighter2 } = props.fight;
   const fightLog = props.fight["fightLog"];
   const [fighter1Health, setFighter1Health] = useState(100);
   const [fighter2Health, setFighter2Health] = useState(100);
   const [currentLogIndex, setCurrentLogIndex] = useState(0);
   const [fightOver, setFightOver] = useState(false);
-  const [currentLog, setCurrentLog] = useState("");
   const [showWinnerTimeLeft, setShowWinnerTimeLeft] = useState(100);
 
   useEffect(() => {
     if (currentLogIndex < fightLog.length) {
       const interval = setInterval(() => {
         const log = fightLog[currentLogIndex];
-        console.log(log);
         const splitLog = log.split(" ");
         const attackedFighter =
           splitLog[0] === fighter1.name ? fighter1 : fighter2;
@@ -35,7 +31,6 @@ const Fight = props => {
         }
 
         setCurrentLogIndex(oldLogIndex => {
-          setCurrentLog(fightLog[currentLogIndex]);
           return oldLogIndex + 1;
         });
       }, 100);
@@ -69,11 +64,9 @@ const Fight = props => {
   const nextMatchToShow = fighter1 ? (
     <div className={classes.nextMatch}>
       <Fighter
+        fighter={fighter1}
         currentHealth={fighter1Health}
-        name={fighter1.name}
-        health={fighter1.health}
-        wins={fighter1.wins}
-        losses={fighter1.losses}
+        fight
       ></Fighter>
       <div>
         <p>
@@ -82,11 +75,9 @@ const Fight = props => {
       </div>
 
       <Fighter
+        fighter={fighter2}
         currentHealth={fighter2Health}
-        name={fighter2.name}
-        health={fighter2.health}
-        wins={fighter2.wins}
-        losses={fighter2.losses}
+        fight
       ></Fighter>
     </div>
   ) : (
@@ -98,10 +89,8 @@ const Fight = props => {
       <div>
         <h3 className={classes.winner}>Vinnaren!</h3>
         <Fighter
-          name={props.fight.winner.name}
-          health={props.fight.winner.health}
-          wins={props.fight.winner.wins}
-          losses={props.fight.winner.losses}
+          fighter={props.fight.winner}
+          fight
         ></Fighter>
       </div>
     </div>
@@ -110,6 +99,5 @@ const Fight = props => {
   return <div>{fightOver ? winner : nextMatchToShow}</div>;
 };
 
-Fight.propTypes = {};
 
 export default Fight;

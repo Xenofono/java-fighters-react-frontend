@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "./UI/Button";
 import Game from "./Game";
 import classes from "./App.module.css";

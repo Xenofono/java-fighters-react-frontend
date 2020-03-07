@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import Fighter from "../Fighter";
 import TimeBar from "../UI/TimeBar";
 import Button from "../UI/Button";
 import classes from "./NextFight.module.css";
-import {Howl, Howler} from 'howler'
 
 
 const NextFight = props => {
@@ -26,10 +24,7 @@ const NextFight = props => {
   const nextMatchToShow = fighter1 ? (
     <div className={classes.nextMatch}>
       <Fighter
-        name={fighter1.name}
-        health={fighter1.health}
-        wins={fighter1.wins}
-        losses={fighter1.losses}
+        fighter={fighter1}
       ></Fighter>
       <div className={classes.info}>
         <TimeBar time={timeLeft}></TimeBar>
@@ -41,10 +36,7 @@ const NextFight = props => {
       </div>
 
       <Fighter
-        name={fighter2.name}
-        health={fighter2.health}
-        wins={fighter2.wins}
-        losses={fighter2.losses}
+        fighter={fighter2}
       ></Fighter>
     </div>
   ) : null;
@@ -52,6 +44,5 @@ const NextFight = props => {
   return <div>{nextMatchToShow}</div>;
 };
 
-NextFight.propTypes = {};
 
 export default NextFight;
