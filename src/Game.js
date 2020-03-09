@@ -13,7 +13,6 @@ const Game = props => {
   const [nextMatch, setNextMatch] = useState({});
   const [fight, setFight] = useState({});
   const [loaded, setLoaded] = useState(false);
-  const [tournamentOver, setTournamentOver] = useState(false);
   const [playSound] = useState(
     new Howl({
       src: ["sound/Ken Stage.mp3"],
@@ -50,7 +49,8 @@ const Game = props => {
       playSound.play();
     }
 
-    if (!loaded && !tournamentOver) {
+    //first get upcoming fight and THEN activate it
+    if (!loaded && fighters.length !== 1) {
       fetch(baseURL + props.tournamentId + "/upcoming")
         .then(nextMatchResponse => nextMatchResponse.json())
         .then(nextMatchResult => {
@@ -63,12 +63,11 @@ const Game = props => {
             .then(() => setLoaded(true));
         });
     }
-  }, [loaded, playSound, youWin, winSong]);
+  }, [loaded]);
 
   const handleShowFight = loser => {
     setFighters(oldFighters => {
       if (oldFighters.length === 2) {
-        setTournamentOver(true);
         playSound.fade(0.5, 0, 1500);
         youWin.play();
 
@@ -81,16 +80,21 @@ const Game = props => {
     });
   };
 
-  const numberOfFighters = fighters.length !== 0 ? fighters.length : -1;
-  let currentBracket = "Kvartsfinal";
-
-  if (numberOfFighters > 2 && numberOfFighters < allFighters / 2 + 1)
-    currentBracket = "Semifinal";
-  else if (numberOfFighters === 2) {
-    currentBracket = "Final";
-  } else if (numberOfFighters === 1) {
-    currentBracket = "Vinnaren!";
+  const bracketCalculator = (fightersLeft) => {
+    let currentBracket = "Kvartsfinal";
+    if (fightersLeft > 2 && fightersLeft < allFighters / 2 + 1)
+      currentBracket = "Semifinal";
+    else if (fightersLeft === 2) {
+      currentBracket = "Final";
+    } else if (fightersLeft === 1) {
+      currentBracket = "Vinnaren!";
+    }
+    return currentBracket;
   }
+
+  const numberOfFighters = fighters.length !== 0 ? fighters.length : -1;
+  const currentBracket = bracketCalculator(fighters.length)
+
   console.log("FIGHTERS KVAR!", fighters);
   const tournamentWinner = loaded ? (
     <div className={classes.nextMatch}>
@@ -103,7 +107,7 @@ const Game = props => {
         </div>
       </div>
     </div>
-  ) : null;
+  ) : <Spinner></Spinner>;
 
   const fightContainer = loaded ? (
     <div className={classes.container}>
@@ -120,7 +124,7 @@ const Game = props => {
       {fighters.length !== 0 ? (
         <h3 className={classes.bracket}>{currentBracket}</h3>
       ) : null}
-      {tournamentOver ? tournamentWinner : fightContainer}
+      {numberOfFighters === 1 ? tournamentWinner : fightContainer}
     </div>
   );
 };
