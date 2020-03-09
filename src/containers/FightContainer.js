@@ -4,6 +4,7 @@ import NextFight from "./NextFight";
 import Fight from "./Fight";
 
 const FightContainer = props => {
+
   const [showFight, setShowFight] = useState(false);
 
   const switchToFight = () => {

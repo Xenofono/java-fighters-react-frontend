@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import classes from "./Game.module.css";
 import FightContainer from "./containers/FightContainer";
 import Fighter from "./Fighter";
+import Spinner from './UI/Spinner'
+import {ApiContext} from './ApiContext'
 import { Howl } from "howler";
 
 const Game = props => {
+  const {baseURL} = useContext(ApiContext)
   const [fighters, setFighters] = useState([]);
   const [allFighters, setAllFighters] = useState();
   const [nextMatch, setNextMatch] = useState({});
@@ -38,7 +41,7 @@ const Game = props => {
 
   useEffect(() => {
     if (fighters.length === 0) {
-      fetch(props.API_URL + props.tournamentId)
+      fetch(baseURL + props.tournamentId)
         .then(response => response.json())
         .then(result => {
           setFighters(result["fightersRemaining"]);
@@ -48,10 +51,10 @@ const Game = props => {
     }
 
     if (!loaded && !tournamentOver) {
-      fetch(props.API_URL + props.tournamentId + "/upcoming")
+      fetch(baseURL + props.tournamentId + "/upcoming")
         .then(nextMatchResponse => nextMatchResponse.json())
         .then(nextMatchResult => {
-          fetch(props.API_URL + props.tournamentId + "/fight")
+          fetch(baseURL + props.tournamentId + "/fight")
             .then(response => response.json())
             .then(result => {
               setNextMatch(nextMatchResult);
@@ -102,7 +105,7 @@ const Game = props => {
     </div>
   ) : null;
 
-  const test = loaded ? (
+  const fightContainer = loaded ? (
     <div className={classes.container}>
       <FightContainer
         nextMatch={nextMatch}
@@ -110,14 +113,14 @@ const Game = props => {
         handleShowFight={handleShowFight}
       ></FightContainer>
     </div>
-  ) : null;
+  ) : <Spinner></Spinner>;
 
   return (
     <div className={classes.Game}>
       {fighters.length !== 0 ? (
         <h3 className={classes.bracket}>{currentBracket}</h3>
       ) : null}
-      {tournamentOver ? tournamentWinner : test}
+      {tournamentOver ? tournamentWinner : fightContainer}
     </div>
   );
 };

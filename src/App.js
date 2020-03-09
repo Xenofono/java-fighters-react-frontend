@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "./UI/Button";
 import Game from "./Game";
 import Spinner from "./UI/Spinner";
+import ApiContextProvider from "./ApiContext";
 import classes from "./App.module.css";
 
 const API_URL = "https://peaceful-dawn-33157.herokuapp.com/api/";
@@ -13,8 +14,8 @@ function App() {
   const handleNewTournament = () => {
     setLoading(true);
     fetch(API_URL + "new")
-      .then(response => response.json())
-      .then(result => {
+      .then((response) => response.json())
+      .then((result) => {
         setTournamentId(result["id"]);
         setLoading(false);
       });
@@ -37,7 +38,9 @@ function App() {
       <h3 className={classes.dreams}>Fighters</h3>
       {!tournamentId ? buttonOrLoader : null}
       {tournamentId ? (
-        <Game tournamentId={tournamentId} API_URL={API_URL}></Game>
+        <ApiContextProvider>
+          <Game tournamentId={tournamentId}></Game>
+        </ApiContextProvider>
       ) : null}
     </div>
   );
