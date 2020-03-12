@@ -80,6 +80,8 @@ const Game = (props) => {
   };
 
   const handleShowFight = (loser) => {
+    calculateNewSum();
+        setSelectedFighter(null);
     setFighters((oldFighters) => {
       if (oldFighters.length === 2) {
         playSound.fade(0.5, 0, 1500);
@@ -87,8 +89,7 @@ const Game = (props) => {
         winSong.play();
       } else {
         setLoaded(false);
-        calculateNewSum();
-        setSelectedFighter(null);
+        
       }
       setShowBetting(true);
       return fighters.filter((f) => f.name !== loser.name);
