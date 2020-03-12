@@ -7,6 +7,7 @@ const FightContainer = (props) => {
   const [showFight, setShowFight] = useState(false);
 
   const switchToFight = () => {
+    props.handleShowBetting();
     setShowFight(true);
   };
 
@@ -17,7 +18,7 @@ const FightContainer = (props) => {
       nextMatch={props.nextMatch}
       click={switchToFight}
       handleSelectFighter={props.handleSelectFighter}
-      handleShowBetting={props.handleShowBetting}></NextFight>
+      ></NextFight>
   );
 
   return <div className={classes.FightContainer}>{toShow}</div>;

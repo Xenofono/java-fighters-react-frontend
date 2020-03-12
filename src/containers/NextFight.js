@@ -16,7 +16,6 @@ const NextFight = (props) => {
       return () => clearInterval(interval);
     } else {
       props.click();
-      props.handleShowBetting();
     }
   }, [fighter1, fighter2, timeLeft]);
 
