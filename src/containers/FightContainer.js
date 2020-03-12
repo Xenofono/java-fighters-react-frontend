@@ -3,8 +3,7 @@ import classes from "./FightContainer.module.css";
 import NextFight from "./NextFight";
 import Fight from "./Fight";
 
-const FightContainer = props => {
-
+const FightContainer = (props) => {
   const [showFight, setShowFight] = useState(false);
 
   const switchToFight = () => {
@@ -14,11 +13,14 @@ const FightContainer = props => {
   const toShow = showFight ? (
     <Fight fight={props.fight} moveToNext={props.handleShowFight}></Fight>
   ) : (
-    <NextFight nextMatch={props.nextMatch} click={switchToFight}></NextFight>
+    <NextFight
+      nextMatch={props.nextMatch}
+      click={switchToFight}
+      handleSelectFighter={props.handleSelectFighter}
+      handleShowBetting={props.handleShowBetting}></NextFight>
   );
 
   return <div className={classes.FightContainer}>{toShow}</div>;
 };
-
 
 export default FightContainer;

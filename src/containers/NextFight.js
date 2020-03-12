@@ -4,20 +4,19 @@ import TimeBar from "../UI/TimeBar";
 import Button from "../UI/Button";
 import classes from "./NextFight.module.css";
 
-
-const NextFight = props => {
+const NextFight = (props) => {
   const { fighter1, fighter2 } = props.nextMatch;
   const [timeLeft, setTimeLeft] = useState(100);
-
 
   useEffect(() => {
     if (timeLeft > 0) {
       const interval = setInterval(() => {
-        setTimeLeft(oldTime => oldTime - 1);
+        setTimeLeft((oldTime) => oldTime - 1);
       }, 50);
       return () => clearInterval(interval);
     } else {
       props.click();
+      props.handleShowBetting();
     }
   }, [fighter1, fighter2, timeLeft]);
 
@@ -25,7 +24,7 @@ const NextFight = props => {
     <div className={classes.nextMatch}>
       <Fighter
         fighter={fighter1}
-      ></Fighter>
+        handleSelectFighter={props.handleSelectFighter}></Fighter>
       <div className={classes.info}>
         <TimeBar time={timeLeft}></TimeBar>
         <h3>VS</h3>
@@ -37,12 +36,11 @@ const NextFight = props => {
 
       <Fighter
         fighter={fighter2}
-      ></Fighter>
+        handleSelectFighter={props.handleSelectFighter}></Fighter>
     </div>
   ) : null;
 
   return <div>{nextMatchToShow}</div>;
 };
-
 
 export default NextFight;

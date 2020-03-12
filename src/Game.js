@@ -2,17 +2,21 @@ import React, { useEffect, useState, useContext } from "react";
 import classes from "./Game.module.css";
 import FightContainer from "./containers/FightContainer";
 import Fighter from "./Fighter";
-import Spinner from './UI/Spinner'
-import {ApiContext} from './ApiContext'
+import Spinner from "./UI/Spinner";
+import { ApiContext } from "./ApiContext";
 import { Howl } from "howler";
 
-const Game = props => {
-  const {baseURL} = useContext(ApiContext)
+const Game = (props) => {
+  const { baseURL } = useContext(ApiContext);
   const [fighters, setFighters] = useState([]);
   const [allFighters, setAllFighters] = useState();
   const [nextMatch, setNextMatch] = useState({});
   const [fight, setFight] = useState({});
   const [loaded, setLoaded] = useState(false);
+  const [selectedFighter, setSelectedFighter] = useState(null);
+  const [bettingSum, setBettingSum] = useState(0);
+  const [totalSum, setTotalSum] = useState(1000);
+  const [showBetting, setShowBetting] = useState(true);
   const [playSound] = useState(
     new Howl({
       src: ["sound/Ken Stage.mp3"],
@@ -41,8 +45,8 @@ const Game = props => {
   useEffect(() => {
     if (fighters.length === 0) {
       fetch(baseURL + props.tournamentId)
-        .then(response => response.json())
-        .then(result => {
+        .then((response) => response.json())
+        .then((result) => {
           setFighters(result["fightersRemaining"]);
           setAllFighters(result["allFighters"].length);
         });
@@ -52,11 +56,11 @@ const Game = props => {
     //first get upcoming fight and THEN activate it
     if (!loaded && fighters.length !== 1) {
       fetch(baseURL + props.tournamentId + "/upcoming")
-        .then(nextMatchResponse => nextMatchResponse.json())
-        .then(nextMatchResult => {
+        .then((nextMatchResponse) => nextMatchResponse.json())
+        .then((nextMatchResult) => {
           fetch(baseURL + props.tournamentId + "/fight")
-            .then(response => response.json())
-            .then(result => {
+            .then((response) => response.json())
+            .then((result) => {
               setNextMatch(nextMatchResult);
               setFight(result);
             })
@@ -65,19 +69,41 @@ const Game = props => {
     }
   }, [loaded]);
 
-  const handleShowFight = loser => {
-    setFighters(oldFighters => {
+  const handleSelectFighter = (name) => {
+    const selectedFighter = fighters.filter((f) => f.name === name)[0];
+    console.log(selectedFighter);
+    setSelectedFighter(selectedFighter);
+  };
+
+  const showBettingHandler = () => {
+    setShowBetting(!showBetting);
+  };
+
+  const handleShowFight = (loser) => {
+    setFighters((oldFighters) => {
       if (oldFighters.length === 2) {
         playSound.fade(0.5, 0, 1500);
         youWin.play();
-
         winSong.play();
       } else {
         setLoaded(false);
+        calculateNewSum();
+        setSelectedFighter(null);
       }
-      console.log(loser);
-      return fighters.filter(f => f.name !== loser.name);
+      setShowBetting(true);
+      return fighters.filter((f) => f.name !== loser.name);
     });
+  };
+
+  const calculateNewSum = () => {
+    if (selectedFighter) {
+      if (selectedFighter.name === fight.winner.name) {
+        setTotalSum((oldTotal) => oldTotal + bettingSum * fight.winner.odds);
+      } else {
+        setTotalSum((oldSum) => oldSum - bettingSum);
+      }
+    }
+    setBettingSum(0);
   };
 
   const bracketCalculator = (fightersLeft) => {
@@ -90,12 +116,39 @@ const Game = props => {
       currentBracket = "Vinnaren!";
     }
     return currentBracket;
-  }
+  };
 
   const numberOfFighters = fighters.length !== 0 ? fighters.length : -1;
-  const currentBracket = bracketCalculator(fighters.length)
+  const currentBracket = bracketCalculator(fighters.length);
 
-  console.log("FIGHTERS KVAR!", fighters);
+  const handleInputEl = (e) => {
+    const newSum = +e.target.value;
+    if (newSum <= totalSum) {
+      setBettingSum(e.target.value);
+    }
+  };
+
+  const bettingSection =
+    numberOfFighters !== 1 ? (
+      <div>
+        <h4>Satsa på din fighter</h4>
+        <p>
+          Fighter vald: {selectedFighter ? selectedFighter.name : "EJ VALD"}
+        </p>
+        <p>Total summa: {totalSum}</p>
+        <input
+          value={bettingSum}
+          inputmode="numeric"
+          pattern="[0-9]*"
+          onChange={handleInputEl}
+        />
+      </div>
+    ) : (
+      <div>
+        <p>Du tjänade {totalSum}!</p>
+      </div>
+    );
+
   const tournamentWinner = loaded ? (
     <div className={classes.nextMatch}>
       <div>
@@ -103,11 +156,13 @@ const Game = props => {
         <div className={classes.winnerContainer}>
           <img src={"images/chunli.gif"} alt="chunli"></img>
           <Fighter fighter={fighters[0]} fight></Fighter>
-          <img src={"images/chunli.gif"}alt="chunli"></img>
+          <img src={"images/chunli.gif"} alt="chunli"></img>
         </div>
       </div>
     </div>
-  ) : <Spinner></Spinner>;
+  ) : (
+    <Spinner></Spinner>
+  );
 
   const fightContainer = loaded ? (
     <div className={classes.container}>
@@ -115,15 +170,20 @@ const Game = props => {
         nextMatch={nextMatch}
         fight={fight}
         handleShowFight={handleShowFight}
-      ></FightContainer>
+        handleSelectFighter={handleSelectFighter}
+        handleShowBetting={showBettingHandler}></FightContainer>
     </div>
-  ) : <Spinner></Spinner>;
+  ) : (
+    <Spinner></Spinner>
+  );
 
   return (
     <div className={classes.Game}>
       {fighters.length !== 0 ? (
         <h3 className={classes.bracket}>{currentBracket}</h3>
       ) : null}
+      {showBetting ? bettingSection : null}
+
       {numberOfFighters === 1 ? tournamentWinner : fightContainer}
     </div>
   );

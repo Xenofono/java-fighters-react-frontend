@@ -6,8 +6,15 @@ import TimeBar from "./UI/TimeBar";
 prop fight determines if odds are shown or not
 */
 const Fighter = props => {
+
+  const handleClick= () => {
+    if(!props.fight){
+      props.handleSelectFighter(props.fighter.name)
+    }
+  }
+
   return (
-    <div className={classes.fighter}>
+    <div className={classes.fighter} onClick={handleClick}>
       {typeof props.currentHealth !== "undefined" ? (
         <TimeBar time={props.currentHealth} color={"#FF2525"}></TimeBar>
       ) : null}
