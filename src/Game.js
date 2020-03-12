@@ -145,7 +145,8 @@ const Game = (props) => {
       </div>
     ) : (
       <div>
-        <p>Du tjänade {totalSum}!</p>
+        <p>Du slutade med totalt {totalSum}!</p>
+        <p>Totalt intjänat var {totalSum - 1000}!</p>
       </div>
     );
 
