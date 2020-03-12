@@ -12,7 +12,7 @@ const NextFight = (props) => {
     if (timeLeft > 0) {
       const interval = setInterval(() => {
         setTimeLeft((oldTime) => oldTime - 1);
-      }, 50);
+      }, 100);
       return () => clearInterval(interval);
     } else {
       props.click();

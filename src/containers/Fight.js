@@ -3,7 +3,7 @@ import Fighter from "../Fighter";
 import Balloons from "../UI/Balloons";
 import classes from "./Fight.module.css";
 
-const Fight = props => {
+const Fight = (props) => {
   const { fighter1, fighter2 } = props.fight;
   const fightLog = props.fight["fightLog"];
   const [fighter1Health, setFighter1Health] = useState(100);
@@ -21,19 +21,19 @@ const Fight = props => {
           splitLog[0] === fighter1.name ? fighter1 : fighter2;
         const dmg = splitLog[splitLog.length - 1];
         if (attackedFighter === fighter1) {
-          setFighter1Health(oldHealth =>
+          setFighter1Health((oldHealth) =>
             calcHpWidth(attackedFighter, oldHealth, dmg)
           );
         } else {
-          setFighter2Health(oldHealth =>
+          setFighter2Health((oldHealth) =>
             calcHpWidth(attackedFighter, oldHealth, dmg)
           );
         }
 
-        setCurrentLogIndex(oldLogIndex => {
+        setCurrentLogIndex((oldLogIndex) => {
           return oldLogIndex + 1;
         });
-      }, 100);
+      }, 200);
       return () => clearInterval(interval);
     } else {
       if (fightOver === false) {
@@ -41,12 +41,13 @@ const Fight = props => {
       }
       if (showWinnerTimeLeft > 0) {
         const interval = setInterval(() => {
-          setShowWinnerTimeLeft(oldTime => oldTime - 1);
+          setShowWinnerTimeLeft((oldTime) => oldTime - 1);
         }, 50);
         return () => clearInterval(interval);
       }
     }
-    const loser = props.fight.winner.name === fighter1.name ? fighter2 : fighter1
+    const loser =
+      props.fight.winner.name === fighter1.name ? fighter2 : fighter1;
     props.moveToNext(loser);
   }, [
     currentLogIndex,
@@ -66,19 +67,15 @@ const Fight = props => {
       <Fighter
         fighter={fighter1}
         currentHealth={fighter1Health}
-        fight
-      ></Fighter>
+        fight></Fighter>
       <div>
-        <p>
-          {/* <strong>{currentLog}</strong> */}
-        </p>
+        <p>{/* <strong>{currentLog}</strong> */}</p>
       </div>
 
       <Fighter
         fighter={fighter2}
         currentHealth={fighter2Health}
-        fight
-      ></Fighter>
+        fight></Fighter>
     </div>
   ) : (
     <Balloons></Balloons>
@@ -88,16 +85,12 @@ const Fight = props => {
     <div className={classes.nextMatch}>
       <div>
         <h3 className={classes.winner}>Vinnaren!</h3>
-        <Fighter
-          fighter={props.fight.winner}
-          fight
-        ></Fighter>
+        <Fighter fighter={props.fight.winner} fight></Fighter>
       </div>
     </div>
   ) : null;
 
   return <div>{fightOver ? winner : nextMatchToShow}</div>;
 };
-
 
 export default Fight;
