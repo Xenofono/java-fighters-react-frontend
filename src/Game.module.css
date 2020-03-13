@@ -1,16 +1,15 @@
 @import url(https://fonts.googleapis.com/css?family=Mr+Dafoe);
 
-.Game{
-}
+.Game {}
 
-.container{
-}
+.container {}
 
 .nextMatch {
     display: flex;
     justify-content: space-around;
     margin-left: 10%;
     margin-right: 10%;
+    margin-top: 10px;
     background-color: rgb(236, 167, 55);
 
     min-height: 200px;
@@ -20,26 +19,57 @@
     box-shadow: 0px 0px 10px 10px rgba(116, 7, 88, 0.548);
 }
 
-.bracket{
-    
-        margin-top: 75px;
-        font-family: 'Mr Dafoe';
-        font-weight: 400;
-        font-size: 60px;
-        color: white ;
-        padding-bottom: 0px;
-      
+.bracket {
+
+    margin-top: 75px;
+    font-family: 'Mr Dafoe';
+    font-weight: 400;
+    font-size: 60px;
+    color: white;
+    padding-bottom: 0px;
+
 }
 
-.winnerContainer{
+.betting {
+    margin-top: -20px;
+    display: inline-block;
+    width: 15%;
+    background-color: rgb(236, 167, 55);
+    box-shadow: 0px 0px 10px 10px rgba(116, 7, 88, 0.548);
+    padding: 15px;
+
+}
+
+.betting h4 {
+    color: #B6E8F1;
+}
+
+.betting input {
+    height: 30px;
+    width: 75px;
+    box-sizing: border-box;
+    border: 2px solid rgba(116, 7, 88, 0.548);
+    padding: 5px;
+    line-height: 1.6;
+}
+
+.winnerContainer {
     display: flex;
+}
+
+.betting .selected {
+    color: green;
+}
+
+.betting .notSelected {
+    color: red;
 }
 
 
 h2 {
     font-family: 'Titillium Web', sans-serif;
     font-style: italic;
-    color: rgb(249, 117, 247);  
+    color: rgb(249, 117, 247);
     margin-top: 8%;
     letter-spacing: 7px;
     font-size: 2rem;

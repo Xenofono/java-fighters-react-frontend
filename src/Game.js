@@ -17,9 +17,18 @@ const Game = (props) => {
   const [bettingSum, setBettingSum] = useState(0);
   const [totalSum, setTotalSum] = useState(1000);
   const [showBetting, setShowBetting] = useState(true);
-  const [playSound] = useState(
+  const [kenMusic] = useState(
     new Howl({
       src: ["sound/Ken Stage.mp3"],
+      volume: 0.5,
+      rate: 1,
+      html5: true
+    })
+  );
+  
+  const [ryuMusic] = useState(
+    new Howl({
+      src: ["sound/Ryu Stage.mp3"],
       volume: 0.5,
       rate: 1,
       html5: true
@@ -50,7 +59,8 @@ const Game = (props) => {
           setFighters(result["fightersRemaining"]);
           setAllFighters(result["allFighters"].length);
         });
-      playSound.play();
+        kenMusic.play();
+        kenMusic.on("end", () => ryuMusic.play())
     }
 
     //first get upcoming fight and THEN activate it
@@ -84,7 +94,7 @@ const Game = (props) => {
     setSelectedFighter(null);
     setFighters((oldFighters) => {
       if (oldFighters.length === 2) {
-        playSound.fade(0.5, 0, 1500);
+        ryuMusic.fade(0.5, 0, 1500);
         youWin.play();
         winSong.play();
       } else {
@@ -128,12 +138,14 @@ const Game = (props) => {
     }
   };
 
+  const classForFighter = selectedFighter ? classes.selected : classes.notSelected;
+
   const bettingSection =
     numberOfFighters !== 1 ? (
-      <div>
+      <div className={classes.betting}>
         <h4>Satsa på din fighter</h4>
         <p>
-          Fighter vald: {selectedFighter ? selectedFighter.name : "EJ VALD"}
+          Fighter vald: <span className={classForFighter}>{selectedFighter ? selectedFighter.name : "EJ VALD"}</span>
         </p>
         <p>Total summa: {totalSum}</p>
         <input
@@ -144,7 +156,7 @@ const Game = (props) => {
         />
       </div>
     ) : (
-      <div>
+      <div className={classes.betting}>
         <p>Du slutade med totalt {totalSum}!</p>
         <p>Totalt intjänat var {totalSum - 1000}!</p>
       </div>
